@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUMIERE - プライベートラグジュアリーサロン</title>
+  <meta name="description" content="東京・表参道のプライベートラグジュアリービューティーサロン LUMIERE（ルミエール）。完全予約制で、あなただけの美しい時間をお届けします。">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold: {
+              DEFAULT: '#b8860b',
+              text: '#8a6914',
+              dark: '#996d00',
+              darker: '#7a5700',
+            },
+            rose: {
+              salon: '#d4a0a0',
+              light: '#e8c8c8',
+              pale: '#f0dada',
+            },
+            cream: '#faf8f5',
+            'dark-brown': '#2d2926',
+            muted: '#5f6b78',
+          },
+          fontFamily: {
+            heading: ['"Cormorant Garamond"', 'serif'],
+            body: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    :root {
+      --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+      --ease-decel: cubic-bezier(0, 0, 0.2, 1);
+      --ease-accel: cubic-bezier(0.4, 0, 1, 1);
+      --ease-spring: cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #2d2926;
+      background-color: #faf8f5;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* Scroll reveal base */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.5s var(--ease-decel), transform 0.5s var(--ease-decel);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-slow {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.65s var(--ease-decel), transform 0.65s var(--ease-decel);
+    }
+    .reveal-slow.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-fast {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.4s var(--ease-standard), transform 0.4s var(--ease-standard);
+    }
+    .reveal-fast.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.55s var(--ease-decel), transform 0.55s var(--ease-decel);
+    }
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 0.55s var(--ease-decel), transform 0.55s var(--ease-decel);
+    }
+    .reveal-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Stagger children */
+    .stagger-children > * {
+      transition-delay: calc(var(--stagger-index, 0) * 120ms);
+    }
+
+    /* Hero grain texture SVG filter */
+    .hero-grain {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0.06;
+    }
+
+    /* Button hover transitions */
+    .btn-primary {
+      transition: background-color 150ms var(--ease-spring), transform 150ms var(--ease-spring), box-shadow 150ms var(--ease-spring);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(153, 109, 0, 0.25);
+    }
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-outline {
+      transition: background-color 150ms var(--ease-spring), color 150ms var(--ease-spring), border-color 150ms var(--ease-spring), transform 150ms var(--ease-spring);
+    }
+    .btn-outline:hover {
+      transform: translateY(-1px);
+    }
+
+    /* Navigation */
+    .nav-link {
+      position: relative;
+      transition: color 150ms var(--ease-standard);
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background-color: #8a6914;
+      transition: width 200ms var(--ease-spring);
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Smooth image hover */
+    .img-hover {
+      transition: transform 300ms var(--ease-standard);
+    }
+    .img-hover:hover {
+      transform: scale(1.03);
+    }
+
+    /* Mobile menu */
+    .mobile-menu {
+      transition: transform 300ms var(--ease-decel), opacity 200ms var(--ease-standard);
+    }
+    .mobile-menu.hidden {
+      transform: translateX(100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .mobile-menu.open {
+      transform: translateX(0);
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Before/After slider */
+    .ba-container {
+      position: relative;
+      overflow: hidden;
+    }
+    .ba-after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .ba-after img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .ba-slider {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 3px;
+      height: 100%;
+      background: white;
+      cursor: ew-resize;
+      z-index: 10;
+    }
+    .ba-slider::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .ba-slider::before {
+      content: '\2194';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 11;
+      font-size: 16px;
+      color: #2d2926;
+    }
+
+    /* Testimonial card variation */
+    .testimonial-featured {
+      background: linear-gradient(135deg, #faf8f5 0%, #f0dada 100%);
+    }
+
+    /* Select styling */
+    select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%232d2926' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+    }
+
+    /* Decorative line */
+    .deco-line {
+      width: 48px;
+      height: 1px;
+      background: linear-gradient(90deg, #b8860b, #d4a0a0);
+    }
+
+    /* Map placeholder */
+    .map-placeholder {
+      background: linear-gradient(135deg, #e8e4df 0%, #d8d4cf 100%);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SVG Grain Filter Definition (hidden) -->
+  <svg style="position:absolute;width:0;height:0;">
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+  </svg>
+
+  <!-- ========== NAVIGATION ========== -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-cream/90 backdrop-blur-md border-b border-gold/10">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8 flex items-center justify-between h-16 lg:h-20">
+      <a href="#hero" class="font-heading text-2xl lg:text-3xl font-light tracking-widest text-dark-brown">
+        LUMIERE
+      </a>
+      <div class="hidden lg:flex items-center gap-10">
+        <a href="#concept" class="nav-link text-sm font-medium text-dark-brown/80 hover:text-gold-text tracking-wide">コンセプト</a>
+        <a href="#menu" class="nav-link text-sm font-medium text-dark-brown/80 hover:text-gold-text tracking-wide">メニュー</a>
+        <a href="#stylist" class="nav-link text-sm font-medium text-dark-brown/80 hover:text-gold-text tracking-wide">スタイリスト</a>
+        <a href="#gallery" class="nav-link text-sm font-medium text-dark-brown/80 hover:text-gold-text tracking-wide">ギャラリー</a>
+        <a href="#voice" class="nav-link text-sm font-medium text-dark-brown/80 hover:text-gold-text tracking-wide">お客様の声</a>
+        <a href="#access" class="nav-link text-sm font-medium text-dark-brown/80 hover:text-gold-text tracking-wide">アクセス</a>
+        <a href="#reservation" class="btn-primary inline-block bg-gold-dark text-white text-sm font-semibold px-6 py-2.5 rounded-lg">ご予約</a>
+      </div>
+      <!-- Mobile hamburger -->
+      <button id="menuToggle" class="lg:hidden p-2 text-dark-brown" aria-label="メニューを開く">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path id="menuIcon" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="mobile-menu hidden fixed inset-0 top-16 bg-cream/98 backdrop-blur-lg lg:hidden z-40">
+      <div class="flex flex-col items-center gap-8 pt-16">
+        <a href="#concept" class="text-lg font-medium text-dark-brown/80 hover:text-gold-text" onclick="closeMobileMenu()">コンセプト</a>
+        <a href="#menu" class="text-lg font-medium text-dark-brown/80 hover:text-gold-text" onclick="closeMobileMenu()">メニュー</a>
+        <a href="#stylist" class="text-lg font-medium text-dark-brown/80 hover:text-gold-text" onclick="closeMobileMenu()">スタイリスト</a>
+        <a href="#gallery" class="text-lg font-medium text-dark-brown/80 hover:text-gold-text" onclick="closeMobileMenu()">ギャラリー</a>
+        <a href="#voice" class="text-lg font-medium text-dark-brown/80 hover:text-gold-text" onclick="closeMobileMenu()">お客様の声</a>
+        <a href="#access" class="text-lg font-medium text-dark-brown/80 hover:text-gold-text" onclick="closeMobileMenu()">アクセス</a>
+        <a href="#reservation" class="btn-primary inline-block bg-gold-dark text-white text-base font-semibold px-8 py-3 rounded-lg" onclick="closeMobileMenu()">ご予約はこちら</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <!-- Background image -->
+    <div class="absolute inset-0 z-0">
+      <img
+        src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1920&q=80"
+        alt="高級感のあるサロンインテリア"
+        class="w-full h-full object-cover"
+        loading="eager"
+      >
+      <!-- Gradient overlay -->
+      <div class="absolute inset-0 bg-gradient-to-b from-dark-brown/50 via-dark-brown/30 to-dark-brown/60"></div>
+    </div>
+
+    <!-- Grain texture -->
+    <div class="hero-grain" style="filter: url(#grain);"></div>
+
+    <!-- Content -->
+    <div class="relative z-10 text-center px-6 max-w-3xl mx-auto pb-24" style="padding-top: 96px;">
+      <p class="reveal-fast font-body text-sm tracking-[0.3em] text-white/70 mb-6 uppercase">Private Luxury Beauty Salon</p>
+      <h1 class="reveal font-heading text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light text-white tracking-wider mb-8 leading-tight">
+        LUMIERE
+      </h1>
+      <div class="reveal-slow">
+        <div class="deco-line mx-auto mb-8 bg-white/50" style="width: 64px;"></div>
+        <p class="font-heading text-xl sm:text-2xl md:text-3xl font-light text-white/90 tracking-wide mb-12 italic">
+          あなただけの、美しい時間。
+        </p>
+        <a href="#reservation" class="btn-primary inline-block bg-gold-dark hover:bg-gold-darker text-white text-base font-semibold px-10 py-4 rounded-lg tracking-wide">
+          ご予約はこちら
+        </a>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 reveal-slow">
+      <div class="w-px h-12 bg-white/40 mx-auto mb-2 animate-pulse"></div>
+      <p class="text-white/50 text-xs tracking-widest font-body">SCROLL</p>
+    </div>
+  </section>
+
+  <!-- ========== CONCEPT ========== -->
+  <section id="concept" class="bg-cream" style="padding-top: 96px; padding-bottom: 64px;">
+    <div class="max-w-3xl mx-auto px-6 lg:px-8 text-center">
+      <p class="reveal-fast font-body text-sm tracking-[0.25em] text-gold-text uppercase mb-4">Concept</p>
+      <h2 class="reveal font-heading text-3xl sm:text-4xl md:text-5xl font-light text-dark-brown mb-8 leading-snug">
+        光に包まれる、<br class="hidden sm:inline">特別なひととき
+      </h2>
+      <div class="deco-line mx-auto mb-12 reveal"></div>
+      <div class="reveal-slow space-y-6 text-left sm:text-center">
+        <p class="font-body text-base sm:text-lg leading-relaxed text-dark-brown/80" style="line-height: 2;">
+          表参道の路地裏に佇む、完全予約制のプライベートサロン。<br>
+          「LUMIERE」はフランス語で"光"を意味します。
+        </p>
+        <p class="font-body text-base sm:text-lg leading-relaxed text-dark-brown/80" style="line-height: 2;">
+          忙しい日常から離れて、自分だけの時間を過ごしてほしい。<br>
+          そんな想いから、一日の予約数を限定しています。
+        </p>
+        <p class="font-body text-base sm:text-lg leading-relaxed text-dark-brown/80" style="line-height: 2;">
+          髪質や骨格、ライフスタイルまで丁寧にカウンセリングし、<br class="hidden md:inline">
+          あなたに本当に似合うスタイルを一緒に見つけていきます。<br>
+          帰り道、ふと鏡に映った自分を好きになれる——<br>
+          そんな体験を届けたいと思っています。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== MENU / SERVICES ========== -->
+  <section id="menu" class="bg-white" style="padding-top: 80px; padding-bottom: 80px;">
+    <div class="max-w-5xl mx-auto px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <p class="reveal-fast font-body text-sm tracking-[0.25em] text-gold-text uppercase mb-4">Menu</p>
+        <h2 class="reveal font-heading text-3xl sm:text-4xl md:text-5xl font-light text-dark-brown mb-6">
+          施術メニュー
+        </h2>
+        <div class="deco-line mx-auto reveal"></div>
+      </div>
+
+      <!-- Asymmetric layout: 2 + 1 staggered -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8">
+        <!-- Left column: 2 stacked cards -->
+        <div class="md:col-span-7 space-y-6 lg:space-y-8">
+          <!-- Cut -->
+          <div class="reveal-left group bg-cream rounded-2xl p-8 lg:p-10 border border-gold/10 hover:border-gold/25" style="border-radius: 16px; transition: border-color 150ms var(--ease-spring);">
+            <div class="flex items-start justify-between mb-4">
+              <h3 class="font-heading text-2xl lg:text-3xl font-medium text-dark-brown">カット</h3>
+              <span class="font-heading text-xl lg:text-2xl text-gold-text font-light">&yen;6,600<span class="text-sm text-muted ml-1">〜</span></span>
+            </div>
+            <p class="font-body text-sm text-muted leading-relaxed">
+              骨格診断をベースに、あなたの髪質やクセを活かしたカットをご提案。再現性の高いスタイルで、毎朝のセットが楽になります。シャンプー・ブロー込み。
+            </p>
+          </div>
+          <!-- Color -->
+          <div class="reveal-left group bg-cream rounded-2xl p-8 lg:p-10 border border-gold/10 hover:border-gold/25" style="border-radius: 16px; transition: border-color 150ms var(--ease-spring); transition-delay: 80ms;">
+            <div class="flex items-start justify-between mb-4">
+              <h3 class="font-heading text-2xl lg:text-3xl font-medium text-dark-brown">カラー</h3>
+              <span class="font-heading text-xl lg:text-2xl text-gold-text font-light">&yen;8,800<span class="text-sm text-muted ml-1">〜</span></span>
+            </div>
+            <p class="font-body text-sm text-muted leading-relaxed">
+              肌のトーンに合わせたパーソナルカラー提案。オーガニック成分配合のカラー剤を使用し、ダメージを最小限に。透明感あるツヤカラーを実現します。
+            </p>
+          </div>
+          <!-- Treatment -->
+          <div class="reveal-left group bg-cream rounded-2xl p-8 lg:p-10 border border-gold/10 hover:border-gold/25" style="border-radius: 16px; transition: border-color 150ms var(--ease-spring); transition-delay: 160ms;">
+            <div class="flex items-start justify-between mb-4">
+              <h3 class="font-heading text-2xl lg:text-3xl font-medium text-dark-brown">トリートメント</h3>
+              <span class="font-heading text-xl lg:text-2xl text-gold-text font-light">&yen;5,500<span class="text-sm text-muted ml-1">〜</span></span>
+            </div>
+            <p class="font-body text-sm text-muted leading-relaxed">
+              髪の内部補修からキューティクルケアまで、3ステップの集中トリートメント。触った瞬間に違いがわかる、しっとりとした手触りへ。
+            </p>
+          </div>
+        </div>
+
+        <!-- Right column: 2 cards with different sizing -->
+        <div class="md:col-span-5 space-y-6 lg:space-y-8 md:pt-12">
+          <!-- Head Spa -->
+          <div class="reveal-right group bg-gradient-to-br from-cream to-rose-pale p-8 lg:p-10 border border-rose-salon/20 hover:border-rose-salon/40" style="border-radius: 20px; transition: border-color 150ms var(--ease-spring);">
+            <div class="flex items-start justify-between mb-4">
+              <h3 class="font-heading text-2xl lg:text-3xl font-medium text-dark-brown">ヘッドスパ</h3>
+              <span class="font-heading text-xl lg:text-2xl text-gold-text font-light">&yen;4,400<span class="text-sm text-muted ml-1">〜</span></span>
+            </div>
+            <p class="font-body text-sm text-muted leading-relaxed">
+              頭皮の血行を促進し、髪の土台から健やかに。アロマオイルを使用した極上のリラクゼーション体験。日頃の疲れやストレスを解きほぐします。
+            </p>
+          </div>
+          <!-- Bridal -->
+          <div class="reveal-right group relative overflow-hidden p-8 lg:p-10 text-white" style="border-radius: 24px; transition-delay: 100ms;">
+            <div class="absolute inset-0 z-0">
+              <img
+                src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&q=80"
+                alt="ブライダルヘアスタイル"
+                class="w-full h-full object-cover"
+                loading="lazy"
+              >
+              <div class="absolute inset-0 bg-dark-brown/70"></div>
+            </div>
+            <div class="relative z-10">
+              <div class="flex items-start justify-between mb-4">
+                <div>
+                  <span class="inline-block text-xs tracking-wider bg-gold/90 text-white px-3 py-1 rounded-full mb-3 font-body">SPECIAL</span>
+                  <h3 class="font-heading text-2xl lg:text-3xl font-medium">ブライダル</h3>
+                </div>
+                <span class="font-heading text-xl lg:text-2xl text-rose-light font-light">&yen;22,000<span class="text-sm text-white/70 ml-1">〜</span></span>
+              </div>
+              <p class="font-body text-sm text-white/80 leading-relaxed">
+                人生で最も輝く日のために。ヘアメイクリハーサル付きのトータルプラン。前撮りから当日まで、一貫してサポートいたします。
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-12 reveal">
+        <p class="font-body text-sm text-muted">
+          ※ 料金はすべて税込です。カウンセリングは無料で承ります。<br>
+          セットメニューや初回限定プランもご用意しております。お気軽にご相談ください。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== STYLIST ========== -->
+  <section id="stylist" class="bg-cream" style="padding-top: 96px; padding-bottom: 80px;">
+    <div class="max-w-5xl mx-auto px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <p class="reveal-fast font-body text-sm tracking-[0.25em] text-gold-text uppercase mb-4">Stylist</p>
+        <h2 class="reveal font-heading text-3xl sm:text-4xl md:text-5xl font-light text-dark-brown mb-6">
+          スタイリスト紹介
+        </h2>
+        <div class="deco-line mx-auto reveal"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
+        <!-- Stylist 1 -->
+        <div class="reveal-left">
+          <div class="relative overflow-hidden mb-8" style="border-radius: 20px;">
+            <img
+              src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=600&q=80"
+              alt="スタイリスト 高橋 美咲"
+              class="w-full aspect-[3/4] object-cover img-hover"
+              loading="lazy"
+            >
+            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dark-brown/60 to-transparent p-6 pt-16">
+              <p class="font-heading text-2xl text-white font-medium tracking-wide">高橋 美咲</p>
+              <p class="font-body text-sm text-white/80">Owner Stylist</p>
+            </div>
+          </div>
+          <div class="space-y-3 px-2">
+            <div class="flex items-center gap-3">
+              <span class="font-body text-xs tracking-wider text-gold-text uppercase font-semibold">経験</span>
+              <span class="font-body text-sm text-dark-brown/80">15年（都内有名サロン勤務後、独立）</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="font-body text-xs tracking-wider text-gold-text uppercase font-semibold">得意</span>
+              <span class="font-body text-sm text-dark-brown/80">骨格診断カット / ハイトーンカラー / 髪質改善</span>
+            </div>
+            <p class="font-body text-sm text-muted leading-relaxed pt-2">
+              「"なりたい自分"を、髪から叶えたい。」お一人おひとりの個性を大切に、再現しやすいスタイルをご提案します。カウンセリングの時間をたっぷり取るのがこだわりです。
+            </p>
+          </div>
+        </div>
+
+        <!-- Stylist 2 -->
+        <div class="reveal-right md:mt-12">
+          <div class="relative overflow-hidden mb-8" style="border-radius: 20px;">
+            <img
+              src="https://images.unsplash.com/photo-1595959183082-7b570b7e1e6b?w=600&q=80"
+              alt="スタイリスト 山田 蓮"
+              class="w-full aspect-[3/4] object-cover img-hover"
+              loading="lazy"
+            >
+            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dark-brown/60 to-transparent p-6 pt-16">
+              <p class="font-heading text-2xl text-white font-medium tracking-wide">山田 蓮</p>
+              <p class="font-body text-sm text-white/80">Top Stylist</p>
+            </div>
+          </div>
+          <div class="space-y-3 px-2">
+            <div class="flex items-center gap-3">
+              <span class="font-body text-xs tracking-wider text-gold-text uppercase font-semibold">経験</span>
+              <span class="font-body text-sm text-dark-brown/80">8年（ロンドン留学経験あり）</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="font-body text-xs tracking-wider text-gold-text uppercase font-semibold">得意</span>
+              <span class="font-body text-sm text-dark-brown/80">デザインカラー / メンズスタイル / パーマ</span>
+            </div>
+            <p class="font-body text-sm text-muted leading-relaxed pt-2">
+              海外で培ったテクニックと日本人の髪質を知り尽くした経験を掛け合わせています。「いつもの自分がちょっと好きになる」そんなスタイルを目指して。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== BEFORE / AFTER GALLERY ========== -->
+  <section id="gallery" class="bg-white" style="padding-top: 80px; padding-bottom: 96px;">
+    <div class="max-w-5xl mx-auto px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <p class="reveal-fast font-body text-sm tracking-[0.25em] text-gold-text uppercase mb-4">Gallery</p>
+        <h2 class="reveal font-heading text-3xl sm:text-4xl md:text-5xl font-light text-dark-brown mb-6">
+          Before &amp; After
+        </h2>
+        <div class="deco-line mx-auto reveal mb-6"></div>
+        <p class="reveal-slow font-body text-sm text-muted">施術前後の変化をご覧ください</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+        <!-- Gallery Item 1 -->
+        <div class="reveal-left">
+          <div class="grid grid-cols-2 gap-3">
+            <div class="relative overflow-hidden" style="border-radius: 12px;">
+              <div class="absolute top-3 left-3 bg-dark-brown/70 text-white text-xs font-body px-2.5 py-1 rounded-full z-10">Before</div>
+              <img
+                src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=400&q=80"
+                alt="施術前のヘアスタイル"
+                class="w-full aspect-[3/4] object-cover"
+                loading="lazy"
+              >
+            </div>
+            <div class="relative overflow-hidden" style="border-radius: 12px;">
+              <div class="absolute top-3 left-3 bg-gold/90 text-white text-xs font-body px-2.5 py-1 rounded-full z-10">After</div>
+              <img
+                src="https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?w=400&q=80"
+                alt="施術後のヘアスタイル"
+                class="w-full aspect-[3/4] object-cover"
+                loading="lazy"
+              >
+            </div>
+          </div>
+          <div class="mt-4 px-1">
+            <p class="font-heading text-lg text-dark-brown mb-1">透明感カラー + 髪質改善トリートメント</p>
+            <p class="font-body text-sm text-muted">パサつきが気になっていた髪を、ツヤのあるアッシュベージュに。手触りも見違えるほどなめらかに。</p>
+          </div>
+        </div>
+
+        <!-- Gallery Item 2 -->
+        <div class="reveal-right">
+          <div class="grid grid-cols-2 gap-3">
+            <div class="relative overflow-hidden" style="border-radius: 12px;">
+              <div class="absolute top-3 left-3 bg-dark-brown/70 text-white text-xs font-body px-2.5 py-1 rounded-full z-10">Before</div>
+              <img
+                src="https://images.unsplash.com/photo-1523263685509-7085d0c3e72d?w=400&q=80"
+                alt="施術前のヘアスタイル"
+                class="w-full aspect-[3/4] object-cover"
+                loading="lazy"
+              >
+            </div>
+            <div class="relative overflow-hidden" style="border-radius: 12px;">
+              <div class="absolute top-3 left-3 bg-gold/90 text-white text-xs font-body px-2.5 py-1 rounded-full z-10">After</div>
+              <img
+                src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=400&q=80"
+                alt="施術後のヘアスタイル"
+                class="w-full aspect-[3/4] object-cover"
+                loading="lazy"
+              >
+            </div>
+          </div>
+          <div class="mt-4 px-1">
+            <p class="font-heading text-lg text-dark-brown mb-1">骨格診断カット + デザインカラー</p>
+            <p class="font-body text-sm text-muted">顔まわりのレイヤーで小顔効果を。ハイライトを入れて立体感と動きのあるスタイルに仕上げました。</p>
+          </div>
+        </div>
+
+        <!-- Gallery Item 3 - wider -->
+        <div class="reveal md:col-span-2">
+          <div class="grid grid-cols-2 gap-3 max-w-lg mx-auto">
+            <div class="relative overflow-hidden" style="border-radius: 12px;">
+              <div class="absolute top-3 left-3 bg-dark-brown/70 text-white text-xs font-body px-2.5 py-1 rounded-full z-10">Before</div>
+              <img
+                src="https://images.unsplash.com/photo-1554519515-242161756769?w=400&q=80"
+                alt="施術前のヘアスタイル"
+                class="w-full aspect-[3/4] object-cover"
+                loading="lazy"
+              >
+            </div>
+            <div class="relative overflow-hidden" style="border-radius: 12px;">
+              <div class="absolute top-3 left-3 bg-gold/90 text-white text-xs font-body px-2.5 py-1 rounded-full z-10">After</div>
+              <img
+                src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=400&q=80"
+                alt="施術後のヘアスタイル"
+                class="w-full aspect-[3/4] object-cover"
+                loading="lazy"
+              >
+            </div>
+          </div>
+          <div class="mt-4 text-center">
+            <p class="font-heading text-lg text-dark-brown mb-1">ブライダルヘアメイク</p>
+            <p class="font-body text-sm text-muted">花嫁さまのご要望に合わせた上品なアレンジ。ナチュラルでありながら華やかさのあるスタイルに。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== TESTIMONIALS ========== -->
+  <section id="voice" class="bg-cream" style="padding-top: 128px; padding-bottom: 128px;">
+    <div class="max-w-5xl mx-auto px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <p class="reveal-fast font-body text-sm tracking-[0.25em] text-gold-text uppercase mb-4">Voice</p>
+        <h2 class="reveal font-heading text-3xl sm:text-4xl md:text-5xl font-light text-dark-brown mb-6">
+          お客様の声
+        </h2>
+        <div class="deco-line mx-auto reveal"></div>
+      </div>
+
+      <!-- Varied layout: featured card + 2 smaller -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <!-- Featured testimonial -->
+        <div class="lg:col-span-7 reveal-left">
+          <div class="testimonial-featured p-8 lg:p-12 h-full" style="border-radius: 24px;">
+            <div class="flex items-center gap-4 mb-6">
+              <div class="w-14 h-14 rounded-full bg-rose-salon/40 flex items-center justify-center font-heading text-xl text-dark-brown" style="border-radius: 999px;">
+                M.S
+              </div>
+              <div>
+                <p class="font-body text-sm font-semibold text-dark-brown">M.S さま</p>
+                <p class="font-body text-xs text-muted">30代 / 会社員</p>
+              </div>
+            </div>
+            <div class="mb-4">
+              <svg class="w-8 h-8 text-gold/40" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+            </div>
+            <p class="font-body text-base leading-relaxed text-dark-brown/80 mb-6" style="line-height: 2;">
+              もう3年通っています。他のサロンでは「なんか違う」がずっと続いていたんですが、初めてのカウンセリングで「この人ならわかってくれる」って思えたんです。今では友達に「髪きれいだね」と言われるのが嬉しくて。美咲さんには感謝しかありません。
+            </p>
+            <div class="flex gap-1">
+              <span class="text-gold-text">&#9733;</span>
+              <span class="text-gold-text">&#9733;</span>
+              <span class="text-gold-text">&#9733;</span>
+              <span class="text-gold-text">&#9733;</span>
+              <span class="text-gold-text">&#9733;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 smaller testimonials -->
+        <div class="lg:col-span-5 space-y-8">
+          <div class="reveal-right bg-white p-6 lg:p-8 border border-gold/10" style="border-radius: 16px;">
+            <div class="flex items-center gap-4 mb-5">
+              <div class="w-12 h-12 rounded-full bg-gold/10 flex items-center justify-center font-heading text-lg text-dark-brown" style="border-radius: 999px;">
+                A.K
+              </div>
+              <div>
+                <p class="font-body text-sm font-semibold text-dark-brown">A.K さま</p>
+                <p class="font-body text-xs text-muted">20代 / フリーランス</p>
+              </div>
+            </div>
+            <p class="font-body text-sm leading-relaxed text-dark-brown/80" style="line-height: 1.9;">
+              完全予約制だから、隣の声が気にならないのが本当にありがたい。施術中は自分だけの空間で、ヘッドスパの時間はいつも寝落ちしてしまいます（笑）。カラーの色持ちもすごく良くて、2ヶ月経ってもきれいなまま。
+            </p>
+            <div class="flex gap-1 mt-4">
+              <span class="text-gold-text">&#9733;</span>
+              <span class="text-gold-text">&#9733;</span>
+              <span class="text-gold-text">&#9733;</span>
+              <span class="text-gold-text">&#9733;</span>
+              <span class="text-gold-text">&#9733;</span>
+            </div>
+          </div>
+
+          <div class="reveal-right bg-white p-6 lg:p-8 border border-gold/10" style="border-radius: 16px; transition-delay: 100ms;">
+            <div class="flex items-center gap-4 mb-5">
+              <div class="w-12 h-12 rounded-full bg-rose-pale flex items-center justify-center font-heading text-lg text-dark-brown" style="border-radius: 999px;">
+                Y.T
+              </div>
+              <div>
+                <p class="font-body text-sm font-semibold text-dark-brown">Y.T さま</p>
+                <p class="font-body text-xs text-muted">40代 / 主婦</p>
+              </div>
+            </div>
+            <p class="font-body text-sm leading-relaxed text-dark-brown/80" style="line-height: 1.9;">
+              白髪が増え始めて気分が沈んでいたのですが、蓮さんに「白髪を活かしたデザインもありますよ」と提案していただいて。今ではハイライト感覚で白髪を楽しんでいます。気持ちまで明るくなりました。
+            </p>
+            <div class="flex gap-1 mt-4">
+              <span class="text-gold-text">&#9733;</span>
+              <span class="text-gold-text">&#9733;</span>
+              <span class="text-gold-text">&#9733;</span>
+              <span class="text-gold-text">&#9733;</span>
+              <span class="text-gold/40">&#9733;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ACCESS & HOURS ========== -->
+  <section id="access" class="bg-white" style="padding-top: 80px; padding-bottom: 48px;">
+    <div class="max-w-5xl mx-auto px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <p class="reveal-fast font-body text-sm tracking-[0.25em] text-gold-text uppercase mb-4">Access</p>
+        <h2 class="reveal font-heading text-3xl sm:text-4xl md:text-5xl font-light text-dark-brown mb-6">
+          アクセス・営業時間
+        </h2>
+        <div class="deco-line mx-auto reveal"></div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+        <!-- Info -->
+        <div class="reveal-left">
+          <div class="space-y-8">
+            <div>
+              <h3 class="font-heading text-xl text-dark-brown mb-3">所在地</h3>
+              <p class="font-body text-base text-dark-brown/80 leading-relaxed">
+                〒150-0001<br>
+                東京都渋谷区神宮前3-12-8<br>
+                ルミエールビル 2F
+              </p>
+            </div>
+            <div>
+              <h3 class="font-heading text-xl text-dark-brown mb-3">最寄り駅</h3>
+              <p class="font-body text-base text-dark-brown/80 leading-relaxed">
+                東京メトロ 表参道駅 A2出口より徒歩5分<br>
+                JR 原宿駅 竹下口より徒歩8分
+              </p>
+            </div>
+            <div>
+              <h3 class="font-heading text-xl text-dark-brown mb-3">営業時間</h3>
+              <div class="space-y-2">
+                <div class="flex items-center gap-4">
+                  <span class="font-body text-sm text-muted w-20">平日</span>
+                  <span class="font-body text-base text-dark-brown/80">10:00 - 20:00</span>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="font-body text-sm text-muted w-20">土日祝</span>
+                  <span class="font-body text-base text-dark-brown/80">9:00 - 19:00</span>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="font-body text-sm text-muted w-20">定休日</span>
+                  <span class="font-body text-base text-dark-brown/80">毎週火曜日</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h3 class="font-heading text-xl text-dark-brown mb-3">お電話</h3>
+              <a href="tel:03-1234-5678" class="font-heading text-2xl text-gold-text hover:text-gold-dark" style="transition: color 150ms var(--ease-standard);">
+                03-1234-5678
+              </a>
+              <p class="font-body text-xs text-muted mt-1">受付時間: 9:00 - 20:00（火曜除く）</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Map placeholder -->
+        <div class="reveal-right">
+          <div class="map-placeholder w-full aspect-[4/3] flex items-center justify-center" style="border-radius: 16px;">
+            <div class="text-center p-8">
+              <svg class="w-12 h-12 mx-auto text-dark-brown/30 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+              <p class="font-body text-sm text-dark-brown/50 mb-4">Google Maps</p>
+              <a
+                href="https://maps.google.com/?q=東京都渋谷区神宮前3-12-8"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-outline inline-block border-2 border-gold/40 text-gold-text hover:bg-gold-dark hover:text-white text-sm font-body font-medium px-6 py-2.5"
+                style="border-radius: 8px;"
+              >
+                Google Mapsで開く
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== RESERVATION CTA ========== -->
+  <section id="reservation" class="relative overflow-hidden" style="padding-top: 96px; padding-bottom: 32px;">
+    <!-- Background -->
+    <div class="absolute inset-0 bg-gradient-to-b from-cream via-rose-pale/30 to-cream"></div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <p class="reveal-fast font-body text-sm tracking-[0.25em] text-gold-text uppercase mb-4">Reservation</p>
+        <h2 class="reveal font-heading text-3xl sm:text-4xl md:text-5xl font-light text-dark-brown mb-6">
+          ご予約・お問い合わせ
+        </h2>
+        <div class="deco-line mx-auto reveal mb-8"></div>
+        <p class="reveal-slow font-body text-base text-dark-brown/70 leading-relaxed max-w-lg mx-auto">
+          お気軽にご予約ください。<br>初めての方も大歓迎です。
+        </p>
+      </div>
+
+      <!-- Quick contact buttons -->
+      <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+        <a href="tel:03-1234-5678" class="btn-primary flex items-center gap-3 bg-gold-dark hover:bg-gold-darker text-white text-base font-semibold px-8 py-4 w-full sm:w-auto justify-center" style="border-radius: 8px;">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          お電話で予約
+        </a>
+        <a href="https://line.me/" target="_blank" rel="noopener noreferrer" class="btn-outline flex items-center gap-3 border-2 border-green-700 text-green-700 hover:bg-green-700 hover:text-white text-base font-semibold px-8 py-4 w-full sm:w-auto justify-center" style="border-radius: 8px;">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+          LINEで予約
+        </a>
+      </div>
+
+      <!-- Reservation form -->
+      <div class="reveal-slow bg-white p-8 sm:p-10 lg:p-12 shadow-sm border border-gold/10" style="border-radius: 20px;">
+        <h3 class="font-heading text-2xl text-dark-brown text-center mb-8">オンライン予約</h3>
+        <form id="reservationForm" class="space-y-6" onsubmit="handleFormSubmit(event)">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <!-- Name -->
+            <div>
+              <label for="name" class="block font-body text-sm font-medium text-dark-brown mb-2">
+                お名前 <span class="text-rose-salon">*</span>
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                placeholder="山田 花子"
+                class="w-full font-body text-base px-4 py-3 border border-gray-300 bg-cream/50 text-dark-brown placeholder-muted focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30"
+                style="border-radius: 4px; transition: border-color 150ms var(--ease-standard), box-shadow 150ms var(--ease-standard);"
+              >
+            </div>
+            <!-- Phone -->
+            <div>
+              <label for="phone" class="block font-body text-sm font-medium text-dark-brown mb-2">
+                電話番号 <span class="text-rose-salon">*</span>
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                required
+                placeholder="090-1234-5678"
+                class="w-full font-body text-base px-4 py-3 border border-gray-300 bg-cream/50 text-dark-brown placeholder-muted focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30"
+                style="border-radius: 4px; transition: border-color 150ms var(--ease-standard), box-shadow 150ms var(--ease-standard);"
+              >
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label for="email" class="block font-body text-sm font-medium text-dark-brown mb-2">
+              メールアドレス <span class="text-rose-salon">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              placeholder="example@email.com"
+              class="w-full font-body text-base px-4 py-3 border border-gray-300 bg-cream/50 text-dark-brown placeholder-muted focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30"
+              style="border-radius: 4px; transition: border-color 150ms var(--ease-standard), box-shadow 150ms var(--ease-standard);"
+            >
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <!-- Date -->
+            <div>
+              <label for="datetime" class="block font-body text-sm font-medium text-dark-brown mb-2">
+                ご希望日時 <span class="text-rose-salon">*</span>
+              </label>
+              <input
+                type="datetime-local"
+                id="datetime"
+                name="datetime"
+                required
+                class="w-full font-body text-base px-4 py-3 border border-gray-300 bg-cream/50 text-dark-brown focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30"
+                style="border-radius: 4px; transition: border-color 150ms var(--ease-standard), box-shadow 150ms var(--ease-standard);"
+              >
+            </div>
+            <!-- Menu select -->
+            <div>
+              <label for="menu-select" class="block font-body text-sm font-medium text-dark-brown mb-2">
+                メニュー <span class="text-rose-salon">*</span>
+              </label>
+              <select
+                id="menu-select"
+                name="menu"
+                required
+                class="w-full font-body text-base px-4 py-3 border border-gray-300 bg-cream/50 text-dark-brown focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30"
+                style="border-radius: 4px; transition: border-color 150ms var(--ease-standard), box-shadow 150ms var(--ease-standard);"
+              >
+                <option value="" disabled selected>メニューを選択</option>
+                <option value="カット">カット &yen;6,600〜</option>
+                <option value="カラー">カラー &yen;8,800〜</option>
+                <option value="トリートメント">トリートメント &yen;5,500〜</option>
+                <option value="ヘッドスパ">ヘッドスパ &yen;4,400〜</option>
+                <option value="ブライダル">ブライダル &yen;22,000〜</option>
+                <option value="カット+カラー">カット+カラー セットメニュー</option>
+                <option value="その他">その他（ご要望欄にご記入ください）</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Notes -->
+          <div>
+            <label for="notes" class="block font-body text-sm font-medium text-dark-brown mb-2">
+              ご要望・ご質問
+            </label>
+            <textarea
+              id="notes"
+              name="notes"
+              rows="4"
+              placeholder="髪のお悩み、ご希望のスタイル、アレルギーの有無など、何でもお気軽にご記入ください。"
+              class="w-full font-body text-base px-4 py-3 border border-gray-300 bg-cream/50 text-dark-brown placeholder-muted focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30 resize-vertical"
+              style="border-radius: 4px; transition: border-color 150ms var(--ease-standard), box-shadow 150ms var(--ease-standard);"
+            ></textarea>
+          </div>
+
+          <div class="text-center pt-4">
+            <button
+              type="submit"
+              class="btn-primary inline-block bg-gold-dark hover:bg-gold-darker text-white text-base font-semibold px-12 py-4 tracking-wide"
+              style="border-radius: 8px;"
+            >
+              予約を送信する
+            </button>
+            <p class="font-body text-xs text-muted mt-4">
+              ※ 送信後、確認のお電話またはメールをお送りいたします。<br>
+              お急ぎの場合はお電話（03-1234-5678）でご連絡ください。
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="bg-dark-brown text-white/70" style="padding-top: 48px; padding-bottom: 32px;">
+    <div class="max-w-5xl mx-auto px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+        <!-- Brand -->
+        <div>
+          <a href="#hero" class="font-heading text-3xl font-light tracking-widest text-white block mb-4">LUMIERE</a>
+          <p class="font-body text-sm text-white/50 leading-relaxed">
+            表参道のプライベートラグジュアリーサロン。<br>
+            あなただけの美しい時間をお届けします。
+          </p>
+        </div>
+        <!-- Links -->
+        <div>
+          <h4 class="font-heading text-lg text-white mb-4">Menu</h4>
+          <ul class="space-y-2">
+            <li><a href="#concept" class="font-body text-sm text-white/50 hover:text-gold" style="transition: color 150ms var(--ease-standard);">コンセプト</a></li>
+            <li><a href="#menu" class="font-body text-sm text-white/50 hover:text-gold" style="transition: color 150ms var(--ease-standard);">施術メニュー</a></li>
+            <li><a href="#stylist" class="font-body text-sm text-white/50 hover:text-gold" style="transition: color 150ms var(--ease-standard);">スタイリスト</a></li>
+            <li><a href="#gallery" class="font-body text-sm text-white/50 hover:text-gold" style="transition: color 150ms var(--ease-standard);">ギャラリー</a></li>
+            <li><a href="#voice" class="font-body text-sm text-white/50 hover:text-gold" style="transition: color 150ms var(--ease-standard);">お客様の声</a></li>
+          </ul>
+        </div>
+        <!-- Contact -->
+        <div>
+          <h4 class="font-heading text-lg text-white mb-4">Contact</h4>
+          <div class="space-y-2">
+            <p class="font-body text-sm text-white/50">
+              東京都渋谷区神宮前3-12-8<br>ルミエールビル 2F
+            </p>
+            <a href="tel:03-1234-5678" class="font-body text-sm text-gold hover:text-gold-dark block" style="transition: color 150ms var(--ease-standard);">
+              03-1234-5678
+            </a>
+            <p class="font-body text-sm text-white/50">
+              営業 10:00-20:00（火曜定休）
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-white/10 pt-8 text-center">
+        <p class="font-body text-xs text-white/30">&copy; 2026 LUMIERE. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script>
+    // ---- Mobile Menu ----
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuIcon = document.getElementById('menuIcon');
+    let menuOpen = false;
+
+    function closeMobileMenu() {
+      menuOpen = false;
+      mobileMenu.classList.remove('open');
+      mobileMenu.classList.add('hidden');
+      menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+      menuToggle.setAttribute('aria-label', 'メニューを開く');
+    }
+
+    menuToggle.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      if (menuOpen) {
+        mobileMenu.classList.remove('hidden');
+        requestAnimationFrame(() => {
+          mobileMenu.classList.add('open');
+        });
+        menuIcon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+        menuToggle.setAttribute('aria-label', 'メニューを閉じる');
+      } else {
+        closeMobileMenu();
+      }
+    });
+
+    // ---- Scroll Reveal (Intersection Observer) ----
+    const revealClasses = ['reveal', 'reveal-slow', 'reveal-fast', 'reveal-left', 'reveal-right'];
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px 0px -60px 0px',
+      threshold: 0.1,
+    };
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    revealClasses.forEach((cls) => {
+      document.querySelectorAll('.' + cls).forEach((el) => {
+        revealObserver.observe(el);
+      });
+    });
+
+    // ---- Navbar background on scroll ----
+    const nav = document.querySelector('nav');
+    let lastScroll = 0;
+
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      if (scrollY > 80) {
+        nav.style.boxShadow = '0 1px 8px rgba(45,41,38,0.06)';
+      } else {
+        nav.style.boxShadow = 'none';
+      }
+      lastScroll = scrollY;
+    }, { passive: true });
+
+    // ---- Form Submit (mailto fallback) ----
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
+      const name = form.querySelector('#name').value;
+      const phone = form.querySelector('#phone').value;
+      const email = form.querySelector('#email').value;
+      const datetime = form.querySelector('#datetime').value;
+      const menu = form.querySelector('#menu-select').value;
+      const notes = form.querySelector('#notes').value;
+
+      const subject = encodeURIComponent('【LUMIERE】ご予約リクエスト - ' + name + ' 様');
+      const body = encodeURIComponent(
+        'お名前: ' + name + '\n' +
+        '電話番号: ' + phone + '\n' +
+        'メールアドレス: ' + email + '\n' +
+        'ご希望日時: ' + datetime + '\n' +
+        'メニュー: ' + menu + '\n' +
+        'ご要望: ' + (notes || 'なし') + '\n'
+      );
+
+      window.location.href = 'mailto:info@lumiere-salon.jp?subject=' + subject + '&body=' + body;
+
+      // Show confirmation
+      const btn = form.querySelector('button[type="submit"]');
+      const originalText = btn.textContent;
+      btn.textContent = '送信準備中...';
+      btn.style.backgroundColor = '#5f6b78';
+      setTimeout(() => {
+        btn.textContent = originalText;
+        btn.style.backgroundColor = '';
+      }, 3000);
+    }
+
+    // ---- Smooth scroll for anchor links ----
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        const target = document.querySelector(targetId);
+        if (target) {
+          e.preventDefault();
+          const navHeight = nav.offsetHeight;
+          const targetPos = target.getBoundingClientRect().top + window.scrollY - navHeight;
+          window.scrollTo({ top: targetPos, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
