@@ -758,8 +758,8 @@
             <div>
               <h3 class="font-heading text-xl text-dark-brown mb-3">所在地</h3>
               <p class="font-body text-base text-dark-brown/80 leading-relaxed">
-                〒150-0001<br>
-                東京都渋谷区神宮前3-12-8<br>
+                〒000-0000<br>
+                東京都渋谷区〇〇 0-0-0<br>
                 ルミエールビル 2F
               </p>
             </div>
@@ -1004,7 +1004,7 @@
           <h4 class="font-heading text-lg text-white mb-4">Contact</h4>
           <div class="space-y-2">
             <p class="font-body text-sm text-white/50">
-              東京都渋谷区神宮前3-12-8<br>ルミエールビル 2F
+              東京都渋谷区〇〇 0-0-0<br>ルミエールビル 2F
             </p>
             <a href="#" class="font-body text-sm text-gold hover:text-gold-dark block" style="transition: color 150ms var(--ease-standard);">
               03-0000-0000
@@ -1110,12 +1110,13 @@
         'ご要望: ' + (notes || 'なし') + '\n'
       );
 
-      window.location.href = 'mailto:info@example.com?subject=' + subject + '&body=' + body;
+      // Sample site: do not hand visitors' details to a mail client.
+      void subject; void body;
 
       // Show confirmation
       const btn = form.querySelector('button[type="submit"]');
       const originalText = btn.textContent;
-      btn.textContent = '送信準備中...';
+      btn.textContent = '見本サイトのため送信されません';
       btn.style.backgroundColor = '#5f6b78';
       setTimeout(() => {
         btn.textContent = originalText;
